@@ -12,6 +12,9 @@ import com.mparticle.commerce.Promotion;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaWebView;
+import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,11 +25,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.mparticle.MParticle;
+
 import static android.R.attr.type;
 
 public class MParticleCordovaPlugin extends CordovaPlugin {
 
     private final static String LOG_TAG = "MParticleCordovaPlugin";
+
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+
+        //final Context applicationContext = cordova.getActivity().getApplicationContext();
+        MParticle.start(cordova.getActivity());
+    }
 
     public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("logEvent")) {
